@@ -1,0 +1,215 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="bdFaceRepositoryModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="caFaces">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="fIns" Type="datetime" Nullable="false" />
+          <Property Name="idUsr" Type="int" Nullable="false" />
+          <Property Name="face" Type="image" Nullable="false" />
+          <Property Name="active" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="caPerson">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="fIns" Type="datetime" Nullable="false" />
+          <Property Name="ap1" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="ap2" Type="nvarchar" MaxLength="50" />
+          <Property Name="names" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="caUsers">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="idPerson" Type="int" Nullable="false" />
+          <Property Name="nip" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="username" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="active" Type="bit" Nullable="false" />
+          <Property Name="fIns" Type="datetime" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_caFaces_caUsers">
+          <End Role="caUsers" Type="Self.caUsers" Multiplicity="1" />
+          <End Role="caFaces" Type="Self.caFaces" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="caUsers">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="caFaces">
+              <PropertyRef Name="idUsr" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_caUsers_caPerson">
+          <End Role="caPerson" Type="Self.caPerson" Multiplicity="1" />
+          <End Role="caUsers" Type="Self.caUsers" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="caPerson">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="caUsers">
+              <PropertyRef Name="idPerson" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="bdFaceRepositoryModelStoreContainer">
+          <EntitySet Name="caFaces" EntityType="Self.caFaces" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="caPerson" EntityType="Self.caPerson" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="caUsers" EntityType="Self.caUsers" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_caFaces_caUsers" Association="Self.FK_caFaces_caUsers">
+            <End Role="caUsers" EntitySet="caUsers" />
+            <End Role="caFaces" EntitySet="caFaces" />
+          </AssociationSet>
+          <AssociationSet Name="FK_caUsers_caPerson" Association="Self.FK_caUsers_caPerson">
+            <End Role="caPerson" EntitySet="caPerson" />
+            <End Role="caUsers" EntitySet="caUsers" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="bdFaceRepositoryModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="bdFaceRepositoryEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="caFaces" EntityType="bdFaceRepositoryModel.caFaces" />
+          <EntitySet Name="caPerson" EntityType="bdFaceRepositoryModel.caPerson" />
+          <EntitySet Name="caUsers" EntityType="bdFaceRepositoryModel.caUsers" />
+          <AssociationSet Name="FK_caFaces_caUsers" Association="bdFaceRepositoryModel.FK_caFaces_caUsers">
+            <End Role="caUsers" EntitySet="caUsers" />
+            <End Role="caFaces" EntitySet="caFaces" />
+          </AssociationSet>
+          <AssociationSet Name="FK_caUsers_caPerson" Association="bdFaceRepositoryModel.FK_caUsers_caPerson">
+            <End Role="caPerson" EntitySet="caPerson" />
+            <End Role="caUsers" EntitySet="caUsers" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="caFaces">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="fIns" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="idUsr" Type="Int32" Nullable="false" />
+          <Property Name="face" Type="Binary" Nullable="false" MaxLength="Max" FixedLength="false" />
+          <Property Name="active" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="caUsers" Relationship="bdFaceRepositoryModel.FK_caFaces_caUsers" FromRole="caFaces" ToRole="caUsers" />
+        </EntityType>
+        <EntityType Name="caPerson">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="fIns" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="ap1" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ap2" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="names" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="caUsers" Relationship="bdFaceRepositoryModel.FK_caUsers_caPerson" FromRole="caPerson" ToRole="caUsers" />
+        </EntityType>
+        <EntityType Name="caUsers">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="idPerson" Type="Int32" Nullable="false" />
+          <Property Name="nip" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="username" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="active" Type="Boolean" Nullable="false" />
+          <Property Name="fIns" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="caFaces" Relationship="bdFaceRepositoryModel.FK_caFaces_caUsers" FromRole="caUsers" ToRole="caFaces" />
+          <NavigationProperty Name="caPerson" Relationship="bdFaceRepositoryModel.FK_caUsers_caPerson" FromRole="caUsers" ToRole="caPerson" />
+        </EntityType>
+        <Association Name="FK_caFaces_caUsers">
+          <End Type="bdFaceRepositoryModel.caUsers" Role="caUsers" Multiplicity="1" />
+          <End Type="bdFaceRepositoryModel.caFaces" Role="caFaces" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="caUsers">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="caFaces">
+              <PropertyRef Name="idUsr" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_caUsers_caPerson">
+          <End Type="bdFaceRepositoryModel.caPerson" Role="caPerson" Multiplicity="1" />
+          <End Type="bdFaceRepositoryModel.caUsers" Role="caUsers" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="caPerson">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="caUsers">
+              <PropertyRef Name="idPerson" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="bdFaceRepositoryModelStoreContainer" CdmEntityContainer="bdFaceRepositoryEntities">
+          <EntitySetMapping Name="caFaces">
+            <EntityTypeMapping TypeName="bdFaceRepositoryModel.caFaces">
+              <MappingFragment StoreEntitySet="caFaces">
+                <ScalarProperty Name="active" ColumnName="active" />
+                <ScalarProperty Name="face" ColumnName="face" />
+                <ScalarProperty Name="idUsr" ColumnName="idUsr" />
+                <ScalarProperty Name="fIns" ColumnName="fIns" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="caPerson">
+            <EntityTypeMapping TypeName="bdFaceRepositoryModel.caPerson">
+              <MappingFragment StoreEntitySet="caPerson">
+                <ScalarProperty Name="names" ColumnName="names" />
+                <ScalarProperty Name="ap2" ColumnName="ap2" />
+                <ScalarProperty Name="ap1" ColumnName="ap1" />
+                <ScalarProperty Name="fIns" ColumnName="fIns" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="caUsers">
+            <EntityTypeMapping TypeName="bdFaceRepositoryModel.caUsers">
+              <MappingFragment StoreEntitySet="caUsers">
+                <ScalarProperty Name="fIns" ColumnName="fIns" />
+                <ScalarProperty Name="active" ColumnName="active" />
+                <ScalarProperty Name="username" ColumnName="username" />
+                <ScalarProperty Name="nip" ColumnName="nip" />
+                <ScalarProperty Name="idPerson" ColumnName="idPerson" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Ninguno" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
